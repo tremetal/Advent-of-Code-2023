@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 class AdventOfCode{
 
-    final static Boolean DEBUG = false;
-	final static Map<String, String> numberMap = 
+	final static Boolean DEBUG = false;
+	final static Map<String, String> myNumberMap = 
 		Map.of("one", "o1e",
 			"two", "t2o",
 			"three", "t3e",
@@ -22,7 +22,6 @@ class AdventOfCode{
 	public static void processInput(ArrayList<String> inputArray)
 	{
 		int calibration = 0;
-
 		for(String line : inputArray)
 		{
 			int first = 0;
@@ -41,38 +40,43 @@ class AdventOfCode{
 						second = Character.getNumericValue(inputChar);
 				}
 			}
-				calibration += first * 10 + second;
-				if(DEBUG)
-				{
-					System.out.println("[processInput]first: " + first );
-					System.out.println("[processInput]second: " + second );
-					System.out.println("[processInput]calibration: " + calibration );
-				}
-
-
+			calibration += first * 10 + second;
+			if(DEBUG)
+			{
+				System.out.println("[processInput]first: " + first );
+				System.out.println("[processInput]second: " + second );
+				System.out.println("[processInput]calibration: " + calibration );
+			}
 		}
 		System.out.println("[processInput]Calibration: " + calibration);
 	}
 
-	public static String dumbReplacer(String line)
+	// Replaces all instances of numberMap keys with the values in the line
+	public static String dumbReplacer(String line, Map<String, String> numberMap)
 	{
 		if(DEBUG)
 			System.out.println("[dumbReplacer]Start:"+line);
+
 		String replaced = line;
 		int indexOfFirst = -1;
-
 		Iterator mapIterator = numberMap.entrySet().iterator();
 		while(mapIterator.hasNext())
 		{
 			Map.Entry numberEntry = (Map.Entry)mapIterator.next();
 			replaced = replaced.replaceAll((String)numberEntry.getKey(), (String)numberEntry.getValue());
-
 		}
 
 		if(DEBUG)
 			System.out.println("[dumbReplacer]End:"+replaced);
 		return replaced;
 	}
+
+	// defaults to myNumberMap
+	public static String dumbReplacer(String line)
+	{
+		return dumbReplacer(line, myNumberMap);
+	}
+
 
     public static void main(String[] args) {
 
