@@ -7,33 +7,31 @@ import java.util.Scanner;
 
 class AdventOfCode{
 
-
     final static Boolean DEBUG = false;
-	final static Map<String, String> numberMap = Map.of("one", "o1e", 
-														"two", "t2o",
-														"three", "t3e",
-														"four", "f4r",
-														"five", "f5e",
-														"six", "s6x",
-														"seven", "s7n",
-														"eight", "e8t",
-														"nine", "n9e");
+	final static Map<String, String> numberMap = 
+		Map.of("one", "o1e",
+			"two", "t2o",
+			"three", "t3e",
+			"four", "f4r",
+			"five", "f5e",
+			"six", "s6x",
+			"seven", "s7n",
+			"eight", "e8t",
+			"nine", "n9e");
 
-
-	
 	public static void processInput(ArrayList<String> inputArray)
 	{
 		int calibration = 0;
 
 		for(String line : inputArray)
 		{
-			int first = 0; 
+			int first = 0;
 			int second = 0;
 			String myLine = dumbReplacer(line);
 			for(char inputChar: myLine.toCharArray())
 			{
 				if(Character.isDigit(inputChar))
-				{ 
+				{
 					if(first==0)
 					{
 						first = Character.getNumericValue(inputChar);
@@ -43,15 +41,15 @@ class AdventOfCode{
 						second = Character.getNumericValue(inputChar);
 				}
 			}
-				calibration += first * 10 + second;	
+				calibration += first * 10 + second;
 				if(DEBUG)
 				{
 					System.out.println("[processInput]first: " + first );
 					System.out.println("[processInput]second: " + second );
 					System.out.println("[processInput]calibration: " + calibration );
 				}
-			
-			
+
+
 		}
 		System.out.println("[processInput]Calibration: " + calibration);
 	}
@@ -104,17 +102,17 @@ class AdventOfCode{
 
             BufferedReader bufferedReader =
                 new BufferedReader(fileReader);
-			
+
             while((line = bufferedReader.readLine()) != null)
             {
 				inputArray.add(line);
 				if(DEBUG)
 					System.out.println("[readFile]line: " + line);
-						
+
 			}
             // Always close files.
             bufferedReader.close();
-		}	
+		}
         catch(Exception e) {
             System.out.println(
                 "Unable to open file '" +
