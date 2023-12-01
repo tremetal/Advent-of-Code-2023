@@ -1,14 +1,14 @@
-import java.util.StringTokenizer;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Scanner;
 
 class AdventOfCode{
 
 	final static Boolean DEBUG = false;
-	final static Map<String, String> myNumberMap = 
+
+	// replacing word with nummber padded by first/last
+	final static Map<String, String> replacementMap = 
 		Map.of("one", "o1e",
 			"two", "t2o",
 			"three", "t3e",
@@ -19,6 +19,7 @@ class AdventOfCode{
 			"eight", "e8t",
 			"nine", "n9e");
 
+
 	public static void processInput(ArrayList<String> inputArray)
 	{
 		int calibration = 0;
@@ -26,6 +27,7 @@ class AdventOfCode{
 		{
 			int first = 0;
 			int second = 0;
+			// replace number words with padded numbers
 			String myLine = dumbReplacer(line);
 			for(char inputChar: myLine.toCharArray())
 			{
@@ -58,11 +60,10 @@ class AdventOfCode{
 			System.out.println("[dumbReplacer]Start:"+line);
 
 		String replaced = line;
-		int indexOfFirst = -1;
-		Iterator mapIterator = numberMap.entrySet().iterator();
+		Iterator<Map.Entry<String,String>> mapIterator = numberMap.entrySet().iterator();
 		while(mapIterator.hasNext())
 		{
-			Map.Entry numberEntry = (Map.Entry)mapIterator.next();
+			Map.Entry<String,String> numberEntry = mapIterator.next();
 			replaced = replaced.replaceAll((String)numberEntry.getKey(), (String)numberEntry.getValue());
 		}
 
@@ -71,10 +72,10 @@ class AdventOfCode{
 		return replaced;
 	}
 
-	// defaults to myNumberMap
+	// defaults to replacementMap
 	public static String dumbReplacer(String line)
 	{
-		return dumbReplacer(line, myNumberMap);
+		return dumbReplacer(line, replacementMap);
 	}
 
 
@@ -112,15 +113,13 @@ class AdventOfCode{
 				inputArray.add(line);
 				if(DEBUG)
 					System.out.println("[readFile]line: " + line);
-
 			}
             // Always close files.
             bufferedReader.close();
 		}
         catch(Exception e) {
-            System.out.println(
-                "Unable to open file '" +
-                fileName + "'");
+            System.out.println("Unable to open file '" + fileName + "'");
+			System.exit(0);
         }
 		return inputArray;
 
