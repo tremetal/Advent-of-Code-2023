@@ -8,7 +8,7 @@ class AdventOfCode{
 	final static Boolean DEBUG = false;
 
 	// replacing word with nummber padded by first/last
-	final static Map<String, String> replacementMap = 
+	final static Map<String, String> staticMap = 
 		Map.of("one", "o1e",
 			"two", "t2o",
 			"three", "t3e",
@@ -25,8 +25,7 @@ class AdventOfCode{
 		int calibration = 0;
 		for(String line : inputArray)
 		{
-			int first = 0;
-			int second = 0;
+			int first = 0, second = 0;
 			// replace number words with padded numbers
 			String myLine = dumbReplacer(line);
 			for(char inputChar: myLine.toCharArray())
@@ -53,14 +52,14 @@ class AdventOfCode{
 		System.out.println("[processInput]Calibration: " + calibration);
 	}
 
-	// Replaces all instances of numberMap keys with the values in the line
-	public static String dumbReplacer(String line, Map<String, String> numberMap)
+	// Replaces all instances of replacementMap keys with the values in the line
+	public static String dumbReplacer(final String line, Map<String, String> replacementMap)
 	{
 		if(DEBUG)
 			System.out.println("[dumbReplacer]Start:"+line);
 
-		String replaced = line;
-		Iterator<Map.Entry<String,String>> mapIterator = numberMap.entrySet().iterator();
+		String replaced = new String(line);
+		Iterator<Map.Entry<String,String>> mapIterator = replacementMap.entrySet().iterator();
 		while(mapIterator.hasNext())
 		{
 			Map.Entry<String,String> numberEntry = mapIterator.next();
@@ -72,10 +71,10 @@ class AdventOfCode{
 		return replaced;
 	}
 
-	// defaults to replacementMap
+	// defaults to static map
 	public static String dumbReplacer(String line)
 	{
-		return dumbReplacer(line, replacementMap);
+		return dumbReplacer(line, staticMap);
 	}
 
 
