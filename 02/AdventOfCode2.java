@@ -2,54 +2,92 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 
-class AdventOfCode{
+class AdventOfCode2{
 
 	final static Boolean DEBUG = false;
 
+	final static int MAX_RED = 12;
+	final static int MAX_GREEN = 13;
+	final static int MAX_BLUE = 14;
+
 	// replacing word with nummber padded by first/last
 	final static Map<String, String> staticMap = 
-		Map.of("one", "o1e",
-			"two", "t2o",
-			"three", "t3e",
-			"four", "f4r",
-			"five", "f5e",
-			"six", "s6x",
-			"seven", "s7n",
-			"eight", "e8t",
-			"nine", "n9e");
+		Map.of("blue", "b", "red", "r", "green", "g");
+
 
 
 	public static void processInput(ArrayList<String> inputArray)
 	{
-		int calibration = 0;
+		int total = 0;
+		int totalPower = 0;
 		for(String line : inputArray)
 		{
-			int second=0, first = 0;
-			// replace number words with padded numbers
-			String myLine = dumbReplacer(line);
-			for(char inputChar: myLine.toCharArray())
-			{
-				if(Character.isDigit(inputChar))
-				{
-					second =  Character.getNumericValue(inputChar);
-					if(first==0)
-						first = second;
+			
+			Scanner darkly = new Scanner(line).useDelimiter("\\D+");
+			int game = darkly.nextInt();
+			darkly.close();
+			int minRed = 0, minBlue = 0, minGreen= 0, power=0;
+			Boolean tooHighFound = false;
+
+			// jam all the dice picks into int / char pair by replacing color words by first letter
+			String[] games = dumbReplacer(line.substring(line.indexOf(":"))).replaceAll(";", ",").split(",");
+			for(String colorPicks : games)
+			{	
+				String[] dicePicks = colorPicks.split(",");
+				for (String string : dicePicks) {
+					String[] diceNumberAndColor = string.split(" ");
+
+					int numberOfDice =  Integer.parseInt(diceNumberAndColor[1]);
+					switch (diceNumberAndColor[2].charAt(0))
+					{
+						case 'b': 
+							if(MAX_BLUE< numberOfDice)
+								tooHighFound = true;
+							if(minBlue< numberOfDice)
+								minBlue = numberOfDice;
+						break;
+						case 'g': 
+							if(MAX_GREEN< Integer.parseInt(diceNumberAndColor[1]))
+								tooHighFound = true;
+							if(minGreen< numberOfDice)
+								minGreen = numberOfDice;								
+						break;
+						case 'r': 
+							if(MAX_RED< Integer.parseInt(diceNumberAndColor[1]))
+								tooHighFound = true;
+							if(minRed< numberOfDice)
+								minRed = numberOfDice;								
+						break;												
+					}
+
 				}
+				
+				power = minRed * minBlue * minGreen;				
 			}
-			calibration += first * 10 + second;
+			totalPower+= power;
+			if(!tooHighFound)
+				total += game;
+
 			if(DEBUG)
 			{
-				System.out.println("[processInput]first: " + first );
-				System.out.println("[processInput]second: " + second );
-				System.out.println("[processInput]calibration: " + calibration );
+				System.out.println("[processInput]tooHighFound: " + tooHighFound);
+				System.out.println("[processInput]game: " + game);
+				System.out.println("[processInput]power: " + power);
+				System.out.println("[processInput]totalPower: " + totalPower);
+
+				
 			}
 		}
-		System.out.println("[processInput]Calibration: " + calibration);
+
+		System.out.println("[processInput]total: " + total);
+		System.out.println("[processInput]totalPower: " + totalPower);
+
 	}
 
 	// Replaces all instances of replacementMap keys with the values in the line
-	public static String dumbReplacer(final String line, final Map<String, String> replacementMap)
+	public static String dumbReplacer(final String line, Map<String, String> replacementMap)
 	{
 		if(DEBUG)
 			System.out.println("[dumbReplacer]Start:"+line);
