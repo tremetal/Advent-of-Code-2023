@@ -35,35 +35,31 @@ class AdventOfCode2{
 			String[] games = dumbReplacer(line.substring(line.indexOf(":"))).replaceAll(";", ",").split(",");
 			for(String colorPicks : games)
 			{	
-				String[] dicePicks = colorPicks.split(",");
-				for (String string : dicePicks) {
-					String[] diceNumberAndColor = string.split(" ");
 
-					int numberOfDice =  Integer.parseInt(diceNumberAndColor[1]);
-					switch (diceNumberAndColor[2].charAt(0))
-					{
-						case 'b': 
-							if(MAX_BLUE< numberOfDice)
-								tooHighFound = true;
-							if(minBlue< numberOfDice)
-								minBlue = numberOfDice;
-						break;
-						case 'g': 
-							if(MAX_GREEN< Integer.parseInt(diceNumberAndColor[1]))
-								tooHighFound = true;
-							if(minGreen< numberOfDice)
-								minGreen = numberOfDice;								
-						break;
-						case 'r': 
-							if(MAX_RED< Integer.parseInt(diceNumberAndColor[1]))
-								tooHighFound = true;
-							if(minRed< numberOfDice)
-								minRed = numberOfDice;								
-						break;												
-					}
+				String[] diceNumberAndColor = colorPicks.split(" ");
 
+				int numberOfDice =  Integer.parseInt(diceNumberAndColor[1]);
+				switch (diceNumberAndColor[2].charAt(0))
+				{
+					case 'b': 
+						if(MAX_BLUE< numberOfDice)
+							tooHighFound = true;
+						if(minBlue< numberOfDice)
+							minBlue = numberOfDice;
+					break;
+					case 'g': 
+						if(MAX_GREEN< Integer.parseInt(diceNumberAndColor[1]))
+							tooHighFound = true;
+						if(minGreen< numberOfDice)
+							minGreen = numberOfDice;								
+					break;
+					case 'r': 
+						if(MAX_RED< Integer.parseInt(diceNumberAndColor[1]))
+							tooHighFound = true;
+						if(minRed< numberOfDice)
+							minRed = numberOfDice;								
+					break;												
 				}
-				
 				power = minRed * minBlue * minGreen;				
 			}
 			totalPower+= power;
