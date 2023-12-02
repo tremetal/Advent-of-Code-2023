@@ -112,7 +112,7 @@ class AdventOfCode2{
 
 		if(args.length<1)
 		{
-			System.out.println("Usage: java AdventOfCode input.txt");
+			System.out.println("Usage: java AdventOfCode2 input.txt");
 
 			return;
 		}
